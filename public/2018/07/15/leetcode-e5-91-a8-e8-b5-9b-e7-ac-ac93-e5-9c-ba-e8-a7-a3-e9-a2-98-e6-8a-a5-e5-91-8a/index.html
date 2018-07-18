@@ -1,0 +1,257 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="pragma" content="no-cache">
+  <meta http-equiv="cache-control" content="no-cache">
+  <meta http-equiv="expires" content="0">
+  
+  <title>Leetcode周赛第93场解题报告 | In The End</title>
+  <meta name="author" content="Eric">
+  
+  <meta name="description" content="爱好ACM与算法">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Leetcode周赛第93场解题报告"/>
+  <meta property="og:site_name" content="In The End"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  
+  
+    <link href="/favicon.png" rel="icon">
+  
+  
+  <link rel="stylesheet" href="/css/bootstrap.min.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/font-awesome.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/responsive.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/google-fonts.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+  <script src="/js/jquery-2.0.3.min.js"></script>
+
+  <!-- analytics -->
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-70812759-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?cb5448498d7169c668b07c2b255d62c1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+</head>
+
+ <body>  
+  <nav id="main-nav" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+      <button type="button" class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+		<span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+	  <a class="navbar-brand" href="/">In The End</a>
+      <div class="collapse navbar-collapse nav-menu">
+		<ul class="nav navbar-nav">
+		  
+		  <li>
+			<a href="/archives" title="All the articles.">
+			  <i class=""></i>Archives
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/categories" title="All the categories.">
+			  <i class=""></i>Categories
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/tags" title="All the tags.">
+			  <i class=""></i>Tags
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/about" title="About me.">
+			  <i class=""></i>About
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/atom.xml" title="Subscribe me.">
+			  <i class=""></i>RSS
+			</a>
+		  </li>
+		  
+		</ul>
+      </div>
+    </div> <!-- container -->
+</nav>
+<div class="clearfix"></div>
+
+  <div class="container">
+  	<div class="content">
+    	 
+
+
+	
+		<div class="page-header">
+			<h1> Leetcode周赛第93场解题报告</h1>
+		</div>
+	
+
+
+
+<div class="row post">
+	<!-- cols -->
+	
+	<div id="top_meta"></div>
+	<div class="col-md-9">
+	
+
+	<!-- content -->
+	<div class="mypage">		
+	  		
+
+	  <p>今天上午打了场leetcode周竞赛。终于进了两百名，灰常开心。 <img src="http://39.107.233.145/wp-content/uploads/2018/07/AK-1024x479.png" alt=""> <img src="http://39.107.233.145/wp-content/uploads/2018/07/排名-1024x323.png" alt="">以下是解题报告。 先附上传送门：<a href="https://leetcode-cn.com/contest/weekly-contest-93" target="_blank" rel="noopener">https://leetcode-cn.com/contest/weekly-contest-93</a> 1.二进制间距 首先第一题叫做二进制间距，就是判断一个数字变成二进制后两个1之间的距离，这题纯考细节。先找到一个1，然后用变量t记忆这个1的位置，然后找到下一个1的位置然后相减即可。 [cpp] class Solution { public: int binaryGap(int N) { int move=0,t=0,ans=0,times=0; while(N&gt;0){ if(N&amp;1){ times++; if(times&gt;1) ans=max(ans,move-t); t=move; } N=N&gt;&gt;1; move++; } if(times&lt;=1) ans=0; return ans; } }; [/cpp] 2.重排序得到2的幂 第二题我没有想到灵巧的解题方式，所以直接使用全排列，先将数字分解，然后使用全排列（注意开头是0的情况必须剔除掉），最后使用位运 算，使得这个数字的二进制表示只有一个1，如果出现了两个及以上，立即剪枝。 [cpp] class Solution { public: bool reorderedPowerOf2(int N) { int s[9],i=0; while(N){ s[i++]=N%10; N/=10; } sort(s,s+i); long long t; int flag; do{ if(s[0]==0) continue; int mul=1; t=0; for(int j=i-1;j&gt;=0;j–){ t+=s[j]*mul; mul*=10; } int times=0; flag=1; while(t){ if(t&amp;1) times++; if(times&gt;1){ flag=0; break; } t=t&gt;&gt;1; } if(flag) break; }while(next_permutation(s,s+i)); if(flag) return true; else return false; } }; [/cpp] 3.优势洗牌 这个问题非常类似于田忌赛马（这个比喻我觉得非常恰当），所以显而易见的我们必须对A数组与B数组进行排序，但是问题在于B数组的原来的 位置我们需要想办法保存下来，因为我们需要输出A数组，当然得与B数组的原来位置一一映射。我一开始使用了map保存了B数组的位置，但是数据量比较大，没想到居然爆内存了。转念过来一想其实直接用pair&lt;int,int&gt;就够了，所以改完之后内存就不爆了。 然后就是upper_bound二分查找，将结果写入ans对应于B数组的原来位置，如果upper_bound没成功，就把A数组最小值放入，类似于田忌赛马中拿下等马去糊弄对方上等马一样。 [cpp] class Solution { public: vector<int> advantageCount(vector<int>&amp; A, vector<int>&amp; B) { vector&lt;pair&lt;int,int&gt;&gt; mp; vector<int> ans; for(int i=0;i&lt;B.size();i++){ mp.push_back(make_pair(B[i],i)); ans.push_back(-1); } sort(mp.begin(),mp.end()); sort(A.begin(),A.end()); for(int i=0;i&lt;B.size();i++){ vector<int>::iterator it=upper_bound(A.begin(),A.end(),mp[i].first); if(it!=A.end()){ ans[mp[i].second]=*it; *it=-1; }else{ int j; for(j=0;j&lt;A.size()&amp;&amp;A[j]==-1;j++); ans[mp[i].second]=A[j]; A[j]=-1; } } return ans; } }; [/cpp] 4.最低加油次数 这道题的关键在于思想的转变，很多人会纠结于加油站的选择问题，其实我们可以换个角度思考。 我们可以让车一直跑，在车消耗掉所有的油之后，我们可以获得已经路过的加油站加油的权利，而不是每到一个加油站都去纠结一下到底加不加油。所以，每当车跑过一个加油站，我们就把这个加油站的油加入优先队列，当车没油时就拿出优先队列最上面的一份（一定是最多的一份）给车加油。相应地，如果车又没油了队列又空了，那么就说明这车跑不到了 [cpp] class Solution { public: int minRefuelStops(int target, int startFuel, vector&lt;vector<int>&gt;&amp; stations) { vector<int> end; end.push_back(target); end.push_back(0); stations.push_back(end); priority_queue<int> que; int ans=0,pos=0; for(int i=0;i&lt;stations.size();i++){ int d=stations[i][0]-pos; while(startFuel-d&lt;0){ if(que.empty()){ return -1; } startFuel+=que.top(); que.pop(); ans++; } startFuel-=d; pos=stations[i][0]; que.push(stations[i][1]); } return ans; } }; [/cpp] OK,这次leetcode周赛的解题报告就结束了，我们下周见！ PS：欢迎喜欢算法的同学一起来刷题讨论！</int></int></int></int></int></int></int></int></p>
+	  
+	</div>
+
+	<div>
+  	<center>
+	<div class="pagination">
+
+    
+    
+    <a href="/2018/07/16/e5-ba-b7-e6-89-98-e5-b1-95-e5-bc-80-ef-bc-88-e5-85-a8-e6-8e-92-e5-88-97-e4-b8-8e-e8-87-aa-e7-84-b6-e6-95-b0-e7-9a-84-e5-8f-8c-e5-b0-84-ef-bc-89/" type="button" class="btn btn-default"><i
+                class="fa fa-arrow-circle-o-left"></i> 上一页</a>
+    
+
+    <a href="/" type="button" class="btn btn-default"><i class="fa fa-home"></i>Home</a>
+    
+    <a href="/2018/07/07/e5-9b-9e-e6-ba-af-e6-b3-95-ef-bc-9an-e7-9a-87-e5-90-8e-e9-97-ae-e9-a2-98-ef-bc-88c-e4-b8-8epython3-ef-bc-89/" type="button" class="btn btn-default ">下一页<i
+                class="fa fa-arrow-circle-o-right"></i></a>
+    
+
+    
+</div>
+
+    </center>
+	</div>
+	
+	<!-- comment -->
+	
+<section id="comment">
+    <h2 class="title">留言</h2>
+
+    
+</section>
+
+
+	</div> <!-- col-md-9/col-md-12 -->
+		
+	
+	<div id="side_meta">
+		<div class="col-md-3" id="post_meta"> 
+
+	<!-- date -->
+	
+	<div class="meta-widget">
+	<i class="fa fa-clock-o"></i>
+	2018-07-15 
+	</div>
+	
+
+	<!-- categories -->
+    
+	<div class="meta-widget">
+	<a data-toggle="collapse" data-target="#categorys"><i class="fa fa-folder"></i></a>	
+    <ul id="categorys" class="tag_box list-unstyled collapse in">
+          
+  <li>
+    <li><a href="/categories/ACM/">ACM<span>8</span></a></li> <li><a href="/categories/ACM/LeetCode/">LeetCode<span>1</span></a></li>
+  </li>
+
+    </ul>
+	</div>
+	
+
+	<!-- tags -->
+		
+
+	<!-- toc -->
+	<div class="meta-widget">
+	
+	</div>
+	
+    <hr>
+	
+</div><!-- col-md-3 -->
+
+	</div>
+		
+
+</div><!-- row -->
+
+
+
+	</div>
+  </div>
+  <div class="container-narrow">
+  <footer> <p>
+  &copy; 2018 Eric
+  
+      with help from <a href="http://hexo.io/" target="_blank">Hexo</a>,<a href="http://github.com/wzpan/hexo-theme-freemind/">Freemind</a>,<a href="http://getbootstrap.com/" target="_blank">Twitter Bootstrap</a> and <a href="http://getbootstrap.com/" target="_blank">BOOTSTRA.386</a>. 
+     <br> Theme by <a href="http://github.com/wzpan/hexo-theme-freemind/">Freemind.386</a>.    
+</p>
+ </footer>
+</div> <!-- container-narrow -->
+  
+
+
+  
+<a id="gotop" href="#">   
+  <span>⬆︎TOP</span>
+</a>
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/search.js"></script> 
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+
+</body>
+   </html>

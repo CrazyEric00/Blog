@@ -1,0 +1,268 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="pragma" content="no-cache">
+  <meta http-equiv="cache-control" content="no-cache">
+  <meta http-equiv="expires" content="0">
+  
+  <title>回溯法：n皇后问题（C++与Python3） | In The End</title>
+  <meta name="author" content="Eric">
+  
+  <meta name="description" content="爱好ACM与算法">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="回溯法：n皇后问题（C++与Python3）"/>
+  <meta property="og:site_name" content="In The End"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  
+  
+    <link href="/favicon.png" rel="icon">
+  
+  
+  <link rel="stylesheet" href="/css/bootstrap.min.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/font-awesome.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/responsive.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/google-fonts.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+  <script src="/js/jquery-2.0.3.min.js"></script>
+
+  <!-- analytics -->
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-70812759-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?cb5448498d7169c668b07c2b255d62c1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+</head>
+
+ <body>  
+  <nav id="main-nav" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+      <button type="button" class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+		<span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+	  <a class="navbar-brand" href="/">In The End</a>
+      <div class="collapse navbar-collapse nav-menu">
+		<ul class="nav navbar-nav">
+		  
+		  <li>
+			<a href="/archives" title="All the articles.">
+			  <i class=""></i>Archives
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/categories" title="All the categories.">
+			  <i class=""></i>Categories
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/tags" title="All the tags.">
+			  <i class=""></i>Tags
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/about" title="About me.">
+			  <i class=""></i>About
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/atom.xml" title="Subscribe me.">
+			  <i class=""></i>RSS
+			</a>
+		  </li>
+		  
+		</ul>
+      </div>
+    </div> <!-- container -->
+</nav>
+<div class="clearfix"></div>
+
+  <div class="container">
+  	<div class="content">
+    	 
+
+
+	
+		<div class="page-header">
+			<h1> 回溯法：n皇后问题（C++与Python3）</h1>
+		</div>
+	
+
+
+
+<div class="row post">
+	<!-- cols -->
+	
+	<div id="top_meta"></div>
+	<div class="col-md-9">
+	
+
+	<!-- content -->
+	<div class="mypage">		
+	  		
+
+	  <pre><code>hello，我又更新博客了。今天来写一个非常著名的算法——回溯法，而且这次加上了Python的代码实现。  
+
+那么首先来介绍一下今天的主角——回溯法。先借用刘汝佳大佬的话：回溯法是初学者学习暴力法的第一个障碍，学习时间短则数天，长则数月甚至一年以上。听起来有点吓人，对于回溯法，我个人的理解是DFS（深度优先搜索）的一种转化，先对所求目标深入查找，成功则输出，失败则将深入查找过程中修改的值改回来然后换一条路继续搜。
+
+回溯法是一种选优搜索法，按选优条件向前搜索，以达到目标。但当探索到某一步时，发现原先选择并不优或达不到目标，就退回一步重新选择，这种走不通就退回再走的技术为回溯法，而满足回溯条件的某个状态的点称为“回溯点”。
+
+许多复杂的，规模较大的问题都可以使用回溯法，有“通用解题方法”的美称。
+</code></pre><p>我们先从八皇后问题开始看起： <a href="https://baike.baidu.com/item/%E5%85%AB%E7%9A%87%E5%90%8E" target="_blank" rel="noopener">       八皇后</a>问题，是一个古老而著名的问题，是<a href="https://baike.baidu.com/item/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95" target="_blank" rel="noopener">回溯算法</a>的典型案例。该问题是国际西洋棋棋手马克斯·贝瑟尔于1848年提出：在8×8格的国际象棋上摆放八个皇后，使其不能互相攻击，即任意两个皇后都不能处于同一行、同一列或同一斜线上，问有多少种摆法。 <a href="https://baike.baidu.com/item/%E9%AB%98%E6%96%AF/24098" target="_blank" rel="noopener">高斯</a>认为有76种方案。1854年在柏林的象棋杂志上不同的作者发表了40种不同的解，后来有人用图论的方法解出92种结果。计算机发明后，有多种计算机语言可以解决此问题。        八皇后问题是一个以国际象棋为背景的问题：如何能够在 8×8 的国际象棋棋盘上放置八个皇后，使得任何一个皇后都无法直接吃掉其他的皇后？为了达到此目的，任两个皇后都不能处于同一条横行、纵行或斜线上。八皇后问题可以推广为更一般的n皇后摆放问题：这时棋盘的大小变为n1×n1，而皇后个数也变成n2。而且仅当 n2 = 1 或 n1 ≥ 4 时问题有解。</p>
+<pre><code>八皇后问题最早是由国际西洋棋棋手马克斯·贝瑟尔于1848年提出。之后陆续有数学家对其进行研究，其中包括高斯和康托，并且将其推广为更一般的n皇后摆放问题。八皇后问题的第一个解是在1850年由弗朗兹·诺克给出的。诺克也是首先将问题推广到更一般的n皇后摆放问题的人之一。1874年，S.冈德尔提出了一个通过行列式来求解的方法，这个方法后来又被J.W.L.格莱舍加以改进。
+
+艾兹格·迪杰斯特拉在1972年用这个问题为例来说明他所谓结构性编程的能力。没错就是我们最短路径dijkstra算法的创造者（有兴趣的童鞋可以去了解一下这个牛人和他创造的算法）
+</code></pre><p><img src="http://39.107.233.145/wp-content/uploads/2018/07/1.jpeg" alt=""> 上图的皇后排布就是一种解法 我们举一反三，如何解决N皇后的问题呢，我们的思路如下：        本算法的思路是按行来规定皇后位置，第一行放置一个皇后，第二行放置一个皇后， 第N行也放置一个皇后… 这样， 可以保证每行都有一个皇后，那么各行的皇后应该放置在那一列呢， 算法通过循环来完成，在循环的过程中， 一旦找到一个合适的列，则该行的皇后位置确定，则继续进行下一行的皇后的位置的确定。由于每一行确定皇后位置的方式相似，所以可以使用递归法。一旦最后 一行的皇后位置确定，则可以得到一组解。找到一组解之后， 之前确定皇后应该放置在哪一列的循环其实才进行了一轮循环的， 算法通过该循环遍历所有的列，以此确定每一行所有可能的列的位置。在从一轮循环进入下一轮循环之前，算法需要清除在上一轮被标记为不可放置皇后的标记，也就是回溯。因为进入下一轮循环之后，同一行的皇后的列的位置会发生了变化，之前被标记为不可放置皇后的列和正反对角线位置都已经失效        下面给出N皇后问题代码实现: C++版本： [cpp] #include <iostream> #include <cstring> using namespace std; int tot; int vis[3][100];//使用二维数组，分别枚举列和两个对角线 void queen(int n,int *A,int cur){ if(cur==n) tot++; else{ for(int i=0;i&lt;n;i++){ if(!vis[0][i]&amp;&amp;!vis[1][i+cur]&amp;&amp;!vis[2][cur-i+n]){ A[cur]=i; vis[0][i]=vis[1][i+cur]=vis[2][cur-i+n]=1; queen(n,A,cur+1); vis[0][i]=vis[1][i+cur]=vis[2][cur-i+n]=0; } } } } int main(){ int n; while(cin&gt;&gt;n) { int *a = new int[n+10]; memset(vis,0, sizeof(vis)); tot=0; queen(n,a,0); cout &lt;&lt; tot &lt;&lt; endl; } return 0; } <pre>[/cpp] python3版本： [python] #这种是常规版的，使用一位数组回溯 def queen(c,cur): if(cur==n): global tot tot+=1 else: for i in range(0,n): ok=1 c[cur]=i; for j in range(0,cur): if(c[cur]==c[j] or cur-c[cur]==j-c[j] or cur+c[cur]==j+c[j]): ok=0 break if(ok): queen(c,cur+1) #这个跟上面的C++版本相同，使用了二维数组存储 def queen2(c,cur): global tot global vis if(cur==n): tot+=1 else: for i in range(n): if(vis[0][i] == 0 and vis[1][cur+i] == 0 and vis[2][cur+n-i] == 0): c[cur]=i vis[0][i]=vis[1][cur+i]=vis[2][cur+n-i]=1 queen2(c,cur+1) vis[0][i]=vis[1][cur+i]=vis[2][cur+n-i]=0 #主函数 if __name__==’__main__‘: while True: try: n=int(input()); tot=0 vis=[[0 for col in range(n+10)] for row in range(3)] print(vis) c=[0]*n queen2(c,0) print(tot) except EOFError: break [/python] OK，今天的回溯法讲完了，当然这只是回溯法的九牛一毛而已，接下来会给大家带来更多回溯法的应用问题</pre></cstring></iostream></p>
+	  
+	</div>
+
+	<div>
+  	<center>
+	<div class="pagination">
+
+    
+    
+    <a href="/2018/07/15/leetcode-e5-91-a8-e8-b5-9b-e7-ac-ac93-e5-9c-ba-e8-a7-a3-e9-a2-98-e6-8a-a5-e5-91-8a/" type="button" class="btn btn-default"><i
+                class="fa fa-arrow-circle-o-left"></i> 上一页</a>
+    
+
+    <a href="/" type="button" class="btn btn-default"><i class="fa fa-home"></i>Home</a>
+    
+    <a href="/2018/07/01/uva10410-e9-a2-98-ef-bc-9a-e6-a0-91-e9-87-8d-e5-bb-ba/" type="button" class="btn btn-default ">下一页<i
+                class="fa fa-arrow-circle-o-right"></i></a>
+    
+
+    
+</div>
+
+    </center>
+	</div>
+	
+	<!-- comment -->
+	
+<section id="comment">
+    <h2 class="title">留言</h2>
+
+    
+</section>
+
+
+	</div> <!-- col-md-9/col-md-12 -->
+		
+	
+	<div id="side_meta">
+		<div class="col-md-3" id="post_meta"> 
+
+	<!-- date -->
+	
+	<div class="meta-widget">
+	<i class="fa fa-clock-o"></i>
+	2018-07-07 
+	</div>
+	
+
+	<!-- categories -->
+    
+	<div class="meta-widget">
+	<a data-toggle="collapse" data-target="#categorys"><i class="fa fa-folder"></i></a>	
+    <ul id="categorys" class="tag_box list-unstyled collapse in">
+          
+  <li>
+    <li><a href="/categories/ACM/">ACM<span>8</span></a></li>
+  </li>
+
+    </ul>
+	</div>
+	
+
+	<!-- tags -->
+		
+
+	<!-- toc -->
+	<div class="meta-widget">
+	
+	</div>
+	
+    <hr>
+	
+</div><!-- col-md-3 -->
+
+	</div>
+		
+
+</div><!-- row -->
+
+
+
+	</div>
+  </div>
+  <div class="container-narrow">
+  <footer> <p>
+  &copy; 2018 Eric
+  
+      with help from <a href="http://hexo.io/" target="_blank">Hexo</a>,<a href="http://github.com/wzpan/hexo-theme-freemind/">Freemind</a>,<a href="http://getbootstrap.com/" target="_blank">Twitter Bootstrap</a> and <a href="http://getbootstrap.com/" target="_blank">BOOTSTRA.386</a>. 
+     <br> Theme by <a href="http://github.com/wzpan/hexo-theme-freemind/">Freemind.386</a>.    
+</p>
+ </footer>
+</div> <!-- container-narrow -->
+  
+
+
+  
+<a id="gotop" href="#">   
+  <span>⬆︎TOP</span>
+</a>
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/search.js"></script> 
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+
+</body>
+   </html>

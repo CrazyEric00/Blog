@@ -1,0 +1,257 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="pragma" content="no-cache">
+  <meta http-equiv="cache-control" content="no-cache">
+  <meta http-equiv="expires" content="0">
+  
+  <title>杭电ACM1501题 ：DFS算法与记忆化搜索 | In The End</title>
+  <meta name="author" content="Eric">
+  
+  <meta name="description" content="爱好ACM与算法">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="杭电ACM1501题 ：DFS算法与记忆化搜索"/>
+  <meta property="og:site_name" content="In The End"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  
+  
+    <link href="/favicon.png" rel="icon">
+  
+  
+  <link rel="stylesheet" href="/css/bootstrap.min.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/font-awesome.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/responsive.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/google-fonts.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+  <script src="/js/jquery-2.0.3.min.js"></script>
+
+  <!-- analytics -->
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-70812759-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?cb5448498d7169c668b07c2b255d62c1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+</head>
+
+ <body>  
+  <nav id="main-nav" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+      <button type="button" class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+		<span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+	  <a class="navbar-brand" href="/">In The End</a>
+      <div class="collapse navbar-collapse nav-menu">
+		<ul class="nav navbar-nav">
+		  
+		  <li>
+			<a href="/archives" title="All the articles.">
+			  <i class=""></i>Archives
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/categories" title="All the categories.">
+			  <i class=""></i>Categories
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/tags" title="All the tags.">
+			  <i class=""></i>Tags
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/about" title="About me.">
+			  <i class=""></i>About
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/atom.xml" title="Subscribe me.">
+			  <i class=""></i>RSS
+			</a>
+		  </li>
+		  
+		</ul>
+      </div>
+    </div> <!-- container -->
+</nav>
+<div class="clearfix"></div>
+
+  <div class="container">
+  	<div class="content">
+    	 
+
+
+	
+		<div class="page-header">
+			<h1> 杭电ACM1501题 ：DFS算法与记忆化搜索</h1>
+		</div>
+	
+
+
+
+<div class="row post">
+	<!-- cols -->
+	
+	<div id="top_meta"></div>
+	<div class="col-md-9">
+	
+
+	<!-- content -->
+	<div class="mypage">		
+	  		
+
+	  <p>今天准备写一篇关于深搜的题，这是一道经典的深搜题<a href="http://acm.hdu.edu.cn/showproblem.php?pid=1501" target="_blank" rel="noopener">http://acm.hdu.edu.cn/showproblem.php?pid=1501</a>   <img src="http://39.107.233.145/wp-content/uploads/2018/04/2.png" alt=""> 题目的大致意思就是有两个单词 tree（A） 和 cat（B） ，保持这两个单词的字母顺序，然后将这两个单词揉合成一个新的单词C，当这个新单词的符合前两个单词的字母顺序时就输出yes，如果新单词打乱了原来这两个单词的字母顺序，输出no。 刚开始做题比较难看出这题是深度搜索，所以一开始的思考方式是三个指针维护三个字符串，用C字符串往后迭代，遇到与A或B相同的字符就将A或B的指针往前移动。那么这个方法很快就会遇到问题。 <img src="http://39.107.233.145/wp-content/uploads/2018/04/3-1024x468.png" alt=""> 上面的例子很幸运地避开了纠结的情况，但是我们不可避免的会遇到i=j=k的情况，这样程序就出现了“分支”。 <img src="http://39.107.233.145/wp-content/uploads/2018/04/4-1024x477.png" alt=""> 那么既然可能会产生如此多的子问题，那么自然而然又变成了深度搜索问题，通过一次一次的函数递归往下深入地搜索，解决多种情况，那么我一开始的计划就是定义一个bool类型返回值的dfs函数。 [cpp] bool dfs(int x,int y,int z){ //x作为a字符串的标记，y作为字符串b的标记，z作为s字符串的标记 if(z==s.length()){ //给出一个正确答案的出口，只要有一条路通往z==s.length() //那么这条路一定是所有分支中最长的路，也是最后return的路 //所以只要有一个正确答案，就会把之前return的false覆盖掉 if(x==a.length()&amp;&amp;y==b.length()) return true; else return false; } //当a和b都找不到这个s的字符时，这个答案必定是no，直接return if(s[z]!=a[x]&amp;&amp;s[z]!=b[y]) return false; //当a和b两者都可以选择时，路径的向上返回的出口设置为二者的或运算 //这一步很容易与下面的代码产生多余的搜索，这也是第一次的超时的原因 if(s[z]==a[x]&amp;&amp;s[z]==b[y]) return dfs(x+1,y,z+1)||dfs(x,y+1,z+1); //这两步就是正常的a，b标记向后移动 if(s[z]==a[x]) return dfs(x+1,y,z+1); if(s[z]==b[y]) return dfs(x,y+1,z+1); } [/cpp] 下面是完整代码 [cpp] #include <iostream> #include <string> using namespace std; string a,b,s; bool dfs(int x,int y,int z){ if(z==s.length()){ if(x==a.length()&amp;&amp;y==b.length()) return true; else return false; } if(s[z]!=a[x]&amp;&amp;s[z]!=b[y]) return false; if(s[z]==a[x]&amp;&amp;s[z]==b[y]) return dfs(x+1,y,z+1)||dfs(x,y+1,z+1); if(s[z]==a[x]) return dfs(x+1,y,z+1); if(s[z]==b[y]) return dfs(x,y+1,z+1); } int main() { int cas; while(cin&gt;&gt;cas){ for(int cot=0;cot&lt;cas;cot++){ cin&gt;&gt;a&gt;&gt;b&gt;&gt;s; if(dfs(0,0,0)) cout &lt;&lt; “yes” &lt;&lt;endl; else cout &lt;&lt; “no” &lt;&lt; endl; } } return 0; } [/cpp] 但是别以为这题就完了，提交到杭电oj，马上就回我一个超时，想来也是，过多的return一定会导致复杂度呈指数型增长。 所以我们需要对深搜进行剪枝，那么就得使用记忆化搜索。 所以定义一个flag的标记数组，然后把返回值设置为void，返回值直接存入flag进行记忆，这样当深度搜索进入到相同的路径时，就可以使用flag数组及时阻止。 以下就是AC的代码 [cpp] #include <iostream> #include <string> #include <cstring> using namespace std; string a,b,s; bool ans; int flag[300][300]; void dfs(int x,int y,int z){ if(z==s.length()&amp;&amp;x==a.length()&amp;&amp;y==b.length()){ ans=true; return; } if(s[z]!=a[x]&amp;&amp;s[z]!=b[y]) return; if(flag[x][y]) return; flag[x][y]=true; if(s[z]==a[x]) dfs(x+1,y,z+1); if(s[z]==b[y]) dfs(x,y+1,z+1); } int main() { int cas; while(cin&gt;&gt;cas){ for(int cot=1;cot&lt;=cas;cot++){ ans=false; memset(flag,0,sizeof(flag)); cin&gt;&gt;a&gt;&gt;b&gt;&gt;s; dfs(0,0,0); if(ans) cout &lt;&lt;”Data set “&lt;&lt;cot&lt;&lt;”: “&lt;&lt; “yes” &lt;&lt;endl; else cout &lt;&lt;”Data set “&lt;&lt;cot&lt;&lt;”: “&lt;&lt; “no” &lt;&lt; endl; } } return 0; } [/cpp] 下次继续研究广搜与深搜，计划是杭电oj的1072题</cstring></string></iostream></string></iostream></p>
+	  
+	</div>
+
+	<div>
+  	<center>
+	<div class="pagination">
+
+    
+    
+    <a href="/2018/04/28/e6-9d-ad-e7-94-b5acm1072-e9-a2-98-ef-bc-9a-e5-b8-a6-e6-9d-a1-e4-bb-b6-e7-9a-84-e9-80-83-e7-a6-bb-e8-bf-b7-e5-ae-ab-e9-a2-98-ef-bc-88bfs-e4-b8-8edfs-e4-b8-a4-e7-a7-8d-e6-96-b9-e6-b3-95ac-trashed/" type="button" class="btn btn-default"><i
+                class="fa fa-arrow-circle-o-left"></i> 上一页</a>
+    
+
+    <a href="/" type="button" class="btn btn-default"><i class="fa fa-home"></i>Home</a>
+    
+    <a href="/2018/04/26/e8-ae-b0-e5-bd-95-e7-ac-ac-e4-b8-80-e6-ac-a1-e4-b8-8e-e6-9c-8b-e5-8f-8b-e6-89-93codeforces-div2-e7-ab-9e-e8-b5-9b-ef-bc-88a-e9-a2-98-b-e9-a2-98-cd-e9-a2-98-e6-98-8e-e5-90-8e-e5-a4-a9-e5-b7-a6/" type="button" class="btn btn-default ">下一页<i
+                class="fa fa-arrow-circle-o-right"></i></a>
+    
+
+    
+</div>
+
+    </center>
+	</div>
+	
+	<!-- comment -->
+	
+<section id="comment">
+    <h2 class="title">留言</h2>
+
+    
+</section>
+
+
+	</div> <!-- col-md-9/col-md-12 -->
+		
+	
+	<div id="side_meta">
+		<div class="col-md-3" id="post_meta"> 
+
+	<!-- date -->
+	
+	<div class="meta-widget">
+	<i class="fa fa-clock-o"></i>
+	2018-04-26 
+	</div>
+	
+
+	<!-- categories -->
+    
+	<div class="meta-widget">
+	<a data-toggle="collapse" data-target="#categorys"><i class="fa fa-folder"></i></a>	
+    <ul id="categorys" class="tag_box list-unstyled collapse in">
+          
+  <li>
+    <li><a href="/categories/ACM/">ACM<span>8</span></a></li> <li><a href="/categories/ACM/杭电oj/">杭电oj<span>2</span></a></li>
+  </li>
+
+    </ul>
+	</div>
+	
+
+	<!-- tags -->
+		
+
+	<!-- toc -->
+	<div class="meta-widget">
+	
+	</div>
+	
+    <hr>
+	
+</div><!-- col-md-3 -->
+
+	</div>
+		
+
+</div><!-- row -->
+
+
+
+	</div>
+  </div>
+  <div class="container-narrow">
+  <footer> <p>
+  &copy; 2018 Eric
+  
+      with help from <a href="http://hexo.io/" target="_blank">Hexo</a>,<a href="http://github.com/wzpan/hexo-theme-freemind/">Freemind</a>,<a href="http://getbootstrap.com/" target="_blank">Twitter Bootstrap</a> and <a href="http://getbootstrap.com/" target="_blank">BOOTSTRA.386</a>. 
+     <br> Theme by <a href="http://github.com/wzpan/hexo-theme-freemind/">Freemind.386</a>.    
+</p>
+ </footer>
+</div> <!-- container-narrow -->
+  
+
+
+  
+<a id="gotop" href="#">   
+  <span>⬆︎TOP</span>
+</a>
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/search.js"></script> 
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+
+</body>
+   </html>

@@ -1,0 +1,283 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="pragma" content="no-cache">
+  <meta http-equiv="cache-control" content="no-cache">
+  <meta http-equiv="expires" content="0">
+  
+  <title>康托展开（全排列与自然数的双射） | In The End</title>
+  <meta name="author" content="Eric">
+  
+  <meta name="description" content="爱好ACM与算法">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="康托展开（全排列与自然数的双射）"/>
+  <meta property="og:site_name" content="In The End"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  
+  
+    <link href="/favicon.png" rel="icon">
+  
+  
+  <link rel="stylesheet" href="/css/bootstrap.min.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/font-awesome.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/responsive.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/google-fonts.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+  <script src="/js/jquery-2.0.3.min.js"></script>
+
+  <!-- analytics -->
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-70812759-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?cb5448498d7169c668b07c2b255d62c1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+</head>
+
+ <body>  
+  <nav id="main-nav" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+      <button type="button" class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+		<span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+	  <a class="navbar-brand" href="/">In The End</a>
+      <div class="collapse navbar-collapse nav-menu">
+		<ul class="nav navbar-nav">
+		  
+		  <li>
+			<a href="/archives" title="All the articles.">
+			  <i class=""></i>Archives
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/categories" title="All the categories.">
+			  <i class=""></i>Categories
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/tags" title="All the tags.">
+			  <i class=""></i>Tags
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/about" title="About me.">
+			  <i class=""></i>About
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/atom.xml" title="Subscribe me.">
+			  <i class=""></i>RSS
+			</a>
+		  </li>
+		  
+		</ul>
+      </div>
+    </div> <!-- container -->
+</nav>
+<div class="clearfix"></div>
+
+  <div class="container">
+  	<div class="content">
+    	 
+
+
+	
+		<div class="page-header">
+			<h1> 康托展开（全排列与自然数的双射）</h1>
+		</div>
+	
+
+
+
+<div class="row post">
+	<!-- cols -->
+	
+	<div id="top_meta"></div>
+	<div class="col-md-9">
+	
+
+	<!-- content -->
+	<div class="mypage">		
+	  		
+
+	  <p>今天来写一个比较简单的算法，叫做康托展开。 算法中使用编码与解码的场景是非常多的（例如我接下来要写的八数码问题），比如，一个九宫格中数字的排布，或者一个字符串字符的排布，如果我们使用map或者set来判定是否重复，是非常耗时的，有可能就会疯狂TLE，那么我们此时就可以选择康托先生发明的算法来用O(1)的时间解决重合的问题。 <img src="http://39.107.233.145/wp-content/uploads/2018/07/康托.jpeg" alt="">首先介绍一下，这个人就叫康托，是一位德国的大数学家，主要是研究集合论的，还涉及到了实变函数等高端数学知识（不过这不是我们今天要讨论的），让我们看看19世纪的康托是怎么解决这个问题的。</p>
+<h2 id="康托展开"><a href="#康托展开" class="headerlink" title="康托展开"></a>康托展开</h2><p>首先介绍一下康托展开的定义：康托展开是一个全排列到一个自然数的双射，常用于构建hash表时的空间压缩。设有n个数（1，2，3，4,…,n），可以有组成不同(n!种)的排列组合，康托展开表示的就是是当前排列组合在n个不同元素的全排列中的名次。 什么叫做双射呢，就是指双向映射，正好就对应于计算机中的编码与解码。其中的编码映射对应于这样一个公式： <strong><code>X=a[n]*(n-1)!+a[n-1]*(n-2)!+...+a[i]*(i-1)!+...+a[1]*0!</code></strong> 我们来解析一下a[n]代表的意思 <img src="http://39.107.233.145/wp-content/uploads/2018/07/公式-1024x304.png" alt=""> 其中, a[i]为整数，并且0 &lt;= a[i] &lt;= i, 0 &lt;= i &lt; n, 表示当前未出现的的元素中排第几个，这就是康托展开。 例如有3个数（1，2，3），则其排列组合及其相应的康托展开值如下： <img src="http://39.107.233.145/wp-content/uploads/2018/07/表-1024x339.png" alt=""> 比如其中的 231：</p>
+<ul>
+<li>想要计算排在它前面的排列组合数目（123，132，213），则可以转化为计算算比首位小及小于2的所有排列「1 <em> 2！」，首位相等及为2第二位小于3的所有排列「1\</em>1！」，前两位相等及为23第三位小于1的所有排列（0*0！）的和即可，康托展开为：1*2！+1*1+0*0=3。</li>
+<li>所以小于231的组合有3个，所以231的名次是4。</li>
+</ul>
+<p>再举个例子说明。 在（1，2，3，4，5）5个数的排列组合中，计算 34152的康托展开值。</p>
+<ul>
+<li>首位是3，则小于3的数有两个，为1和2，a[5]=2，则首位小于3的所有排列组合为 a[0]*(5-1)!</li>
+<li>第二位是4，则小于4的数有两个，为1和2，注意这里3并不能算，因为3已经在第一位，所以其实计算的是在第二位之后小于4的个数。因此a[4]=2</li>
+<li>第三位是1，则在其之后小于1的数有0个，所以a[3]=0</li>
+<li>第四位是5，则在其之后小于5的数有1个，为2，所以a[2]=1</li>
+<li>最后一位就不用计算啦，因为在它之后已经没有数了，所以a[1]固定为0</li>
+<li>根据公式： <code>X = 2 * 4! + 2 * 3! + 0 * 2! + 1 * 1! + 0 * 0! = 2 * 24 + 2 * 6 + 1 = 61</code></li>
+<li>所以比 34152 小的组合有61个，即34152是排第62</li>
+</ul>
+<p>具体代码实现如下： [cpp] int vis[362880];//因为9!=362880所以开辟362880，不放心可以多开几个 int fact[9];//保存0-8的阶乘值，方便计算 void init(){//首先打印出0-8阶乘的值直接保存在fact数组 memset(vis,0,sizeof(vis)); fact[0]=1; for(int i=1;i&lt;9;i++){ fact[i]=fact[i-1]*i;//使用前一个数组值快速求阶乘 } } int encode(const char *a)//编码函数 { int i,j,t,sum; sum=0; for( i=0; i&lt;9 ;++i) { t=0; for(j=i+1;j&lt;9;++j) if( a[i]&gt;a[j] ) ++t; sum+=t*fact[9-i-1]; } return sum+1; } [/cpp]</p>
+<h2 id="逆康托展开"><a href="#逆康托展开" class="headerlink" title="逆康托展开"></a>逆康托展开</h2><p>一开始已经提过了，康托展开是一个全排列到一个自然数的<strong>双射</strong>，因此是可逆的。即对于上述例子，在（1，2，3，4，5）给出61可以算出起排列组合为 34152。由上述的计算过程可以容易的逆推回来，具体过程如下：</p>
+<ul>
+<li>用 61 / 4! = 2余13，说明a[5]=2,说明比首位小的数有2个，所以首位为3。</li>
+<li>用 13 / 3! = 2余1，说明a[4]=2，说明在第二位之后小于第二位的数有2个，所以第二位为4。</li>
+<li>用 1 / 2! = 0余1，说明a[3]=0，说明在第三位之后没有小于第三位的数，所以第三位为1。</li>
+<li>用 1 / 1! = 1余0，说明a[2]=1，说明在第二位之后小于第四位的数有1个，所以第四位为5。</li>
+<li>最后一位自然就是剩下的数2啦。</li>
+<li>通过以上分析，所求排列组合为 34152。</li>
+</ul>
+<p>这里放上一段简洁的逆康托展开的代码(经过测试无误)： [cpp] void decode(int k,node) { int i, j, t, vst[10] = {0}; –k; for (i = 0; i &lt; 9; i++) { t = k / fact[9 - i - 1]; for (j = 1; j &lt;= 9; j++) if (!vst[j]) { if (t == 0) break; –t; } node[i] = j; vst[j] = 1; k %= fact[9 - i - 1]; } } [/cpp] PS：下午更新八数码问题，这个康托展开只是因为八数码问题中用到的专门挑出来的前传</p>
+	  
+	</div>
+
+	<div>
+  	<center>
+	<div class="pagination">
+
+    
+    
+    <a href="/2018/07/17/e5-85-ab-e6-95-b0-e7-a0-81-e9-97-ae-e9-a2-98bfs-e5-ba-b7-e6-89-98-e5-b1-95-e5-bc-80/" type="button" class="btn btn-default"><i
+                class="fa fa-arrow-circle-o-left"></i> 上一页</a>
+    
+
+    <a href="/" type="button" class="btn btn-default"><i class="fa fa-home"></i>Home</a>
+    
+    <a href="/2018/07/15/leetcode-e5-91-a8-e8-b5-9b-e7-ac-ac93-e5-9c-ba-e8-a7-a3-e9-a2-98-e6-8a-a5-e5-91-8a/" type="button" class="btn btn-default ">下一页<i
+                class="fa fa-arrow-circle-o-right"></i></a>
+    
+
+    
+</div>
+
+    </center>
+	</div>
+	
+	<!-- comment -->
+	
+<section id="comment">
+    <h2 class="title">留言</h2>
+
+    
+</section>
+
+
+	</div> <!-- col-md-9/col-md-12 -->
+		
+	
+	<div id="side_meta">
+		<div class="col-md-3" id="post_meta"> 
+
+	<!-- date -->
+	
+	<div class="meta-widget">
+	<i class="fa fa-clock-o"></i>
+	2018-07-16 
+	</div>
+	
+
+	<!-- categories -->
+    
+	<div class="meta-widget">
+	<a data-toggle="collapse" data-target="#categorys"><i class="fa fa-folder"></i></a>	
+    <ul id="categorys" class="tag_box list-unstyled collapse in">
+          
+  <li>
+    <li><a href="/categories/ACM/">ACM<span>8</span></a></li>
+  </li>
+
+    </ul>
+	</div>
+	
+
+	<!-- tags -->
+		
+
+	<!-- toc -->
+	<div class="meta-widget">
+	
+	</div>
+	
+    <hr>
+	
+</div><!-- col-md-3 -->
+
+	</div>
+		
+
+</div><!-- row -->
+
+
+
+	</div>
+  </div>
+  <div class="container-narrow">
+  <footer> <p>
+  &copy; 2018 Eric
+  
+      with help from <a href="http://hexo.io/" target="_blank">Hexo</a>,<a href="http://github.com/wzpan/hexo-theme-freemind/">Freemind</a>,<a href="http://getbootstrap.com/" target="_blank">Twitter Bootstrap</a> and <a href="http://getbootstrap.com/" target="_blank">BOOTSTRA.386</a>. 
+     <br> Theme by <a href="http://github.com/wzpan/hexo-theme-freemind/">Freemind.386</a>.    
+</p>
+ </footer>
+</div> <!-- container-narrow -->
+  
+
+
+  
+<a id="gotop" href="#">   
+  <span>⬆︎TOP</span>
+</a>
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/search.js"></script> 
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+
+</body>
+   </html>
