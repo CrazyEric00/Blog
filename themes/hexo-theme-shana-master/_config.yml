@@ -56,14 +56,15 @@ gaymenu_item:
 
 # 社交链接
 social:
-- url: http://github.com/ShanaMaid
+- url: https://github.com/CrazyEric00
   name: Github
 
 # 友情链接
 # name : url
 link_title: 友情链接
 links:
-  ShanaMaid: http://blog.shanamaid.top/
+  飞哥的博客: http://182.254.234.198/
+  Jangit学长的博客: http://jangit.cn/
 
 
 # Sidebar Avatar
