@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="hello，我又更新博客了。今天来写一个非常著名的算法——回溯法，而且这次加上了Python的代码实现。   那么首先来介绍一下今天的主角——回溯法。先借用刘汝佳大佬的话：回溯法是初学者学习暴力法的第一个障碍，学习时间短则数天，长则数月甚至一年以上。听起来有点吓人，对于回溯法，我个人的理解是DFS（深度优先搜索）的一种转化，先对所求目标深入查找，成功则输出，失败则将深入查找过程中修改的值改回来然后">
+<meta name="keywords" content="算法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="回溯法：n皇后问题（C++与Python3）">
+<meta property="og:url" content="https://crazyeric00.github.io/2018/07/07/回溯法：n皇后问题（C++与Python3）/index.html">
+<meta property="og:site_name" content="In The End">
+<meta property="og:description" content="hello，我又更新博客了。今天来写一个非常著名的算法——回溯法，而且这次加上了Python的代码实现。   那么首先来介绍一下今天的主角——回溯法。先借用刘汝佳大佬的话：回溯法是初学者学习暴力法的第一个障碍，学习时间短则数天，长则数月甚至一年以上。听起来有点吓人，对于回溯法，我个人的理解是DFS（深度优先搜索）的一种转化，先对所求目标深入查找，成功则输出，失败则将深入查找过程中修改的值改回来然后">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://crazyeric00.github.io/img/n皇后.jpeg">
+<meta property="og:updated_time" content="2018-07-20T05:38:35.078Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="回溯法：n皇后问题（C++与Python3）">
+<meta name="twitter:description" content="hello，我又更新博客了。今天来写一个非常著名的算法——回溯法，而且这次加上了Python的代码实现。   那么首先来介绍一下今天的主角——回溯法。先借用刘汝佳大佬的话：回溯法是初学者学习暴力法的第一个障碍，学习时间短则数天，长则数月甚至一年以上。听起来有点吓人，对于回溯法，我个人的理解是DFS（深度优先搜索）的一种转化，先对所求目标深入查找，成功则输出，失败则将深入查找过程中修改的值改回来然后">
+<meta name="twitter:image" content="https://crazyeric00.github.io/img/n皇后.jpeg">
+
+
+
+
+
+
+  <link rel="canonical" href="https://crazyeric00.github.io/2018/07/07/回溯法：n皇后问题（C++与Python3）/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>回溯法：n皇后问题（C++与Python3） | In The End</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+	<a href="https://github.com/CrazyEric00" class="github-corner" aria-label="View source on Github"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">In The End</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">Eric的个人博客</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://crazyeric00.github.io/2018/07/07/回溯法：n皇后问题（C++与Python3）/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Eric">
+      <meta itemprop="description" content="如果奇迹有颜色">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="In The End">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">回溯法：n皇后问题（C++与Python3）
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-07-07 11:41:40" itemprop="dateCreated datePublished" datetime="2018-07-07T11:41:40Z">2018-07-07</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-07-20 05:38:35" itemprop="dateModified" datetime="2018-07-20T05:38:35Z">2018-07-20</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/ACM/" itemprop="url" rel="index"><span itemprop="name">ACM</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/07/07/回溯法：n皇后问题（C++与Python3）/" class="leancloud_visitors" data-flag-title="回溯法：n皇后问题（C++与Python3）">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">热度：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+                 <span>℃</span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>hello，我又更新博客了。今天来写一个非常著名的算法——回溯法，而且这次加上了Python的代码实现。  </p>
+<p>那么首先来介绍一下今天的主角——回溯法。先借用刘汝佳大佬的话：回溯法是初学者学习暴力法的第一个障碍，学习时间短则数天，长则数月甚至一年以上。听起来有点吓人，对于回溯法，我个人的理解是DFS（深度优先搜索）的一种转化，先对所求目标深入查找，成功则输出，失败则将深入查找过程中修改的值改回来然后换一条路继续搜。</p>
+<p>回溯法是一种选优搜索法，按选优条件向前搜索，以达到目标。但当探索到某一步时，发现原先选择并不优或达不到目标，就退回一步重新选择，这种走不通就退回再走的技术为回溯法，而满足回溯条件的某个状态的点称为“回溯点”。</p>
+<p>许多复杂的，规模较大的问题都可以使用回溯法，有“通用解题方法”的美称。</p>
+<p>我们先从八皇后问题开始看起：八皇后问题，是一个古老而著名的问题，是[回溯算法]的典型案例。该问题是国际西洋棋棋手马克斯·贝瑟尔于1848年提出：在8×8格的国际象棋上摆放八个皇后，使其不能互相攻击，即任意两个皇后都不能处于同一行、同一列或同一斜线上，问有多少种摆法。 [高斯]认为有76种方案。1854年在柏林的象棋杂志上不同的作者发表了40种不同的解，后来有人用图论的方法解出92种结果。计算机发明后，有多种计算机语言可以解决此问题。</p>
+<p>八皇后问题是一个以国际象棋为背景的问题：如何能够在 8×8 的国际象棋棋盘上放置八个皇后，使得任何一个皇后都无法直接吃掉其他的皇后？为了达到此目的，任两个皇后都不能处于同一条横行、纵行或斜线上。八皇后问题可以推广为更一般的n皇后摆放问题：这时棋盘的大小变为n1×n1，而皇后个数也变成n2。而且仅当 n2 = 1 或 n1 ≥ 4 时问题有解。</p>
+<p>八皇后问题最早是由国际西洋棋棋手马克斯·贝瑟尔于1848年提出。之后陆续有数学家对其进行研究，其中包括高斯和康托，并且将其推广为更一般的n皇后摆放问题。八皇后问题的第一个解是在1850年由弗朗兹·诺克给出的。诺克也是首先将问题推广到更一般的n皇后摆放问题的人之一。1874年，S.冈德尔提出了一个通过行列式来求解的方法，这个方法后来又被J.W.L.格莱舍加以改进。</p>
+<p>艾兹格·迪杰斯特拉在1972年用这个问题为例来说明他所谓结构性编程的能力。没错就是我们最短路径dijkstra算法的创造者（有兴趣的童鞋可以去了解一下这个牛人和他创造的算法）</p>
+<p><img src="/img/n皇后.jpeg" alt=""><br>上图的皇后排布就是一种解法 我们举一反三，如何解决N皇后的问题呢，我们的思路如下：本算法的思路是按行来规定皇后位置，第一行放置一个皇后，第二行放置一个皇后， 第N行也放置一个皇后… 这样， 可以保证每行都有一个皇后，那么各行的皇后应该放置在那一列呢， 算法通过循环来完成，在循环的过程中， 一旦找到一个合适的列，则该行的皇后位置确定，则继续进行下一行的皇后的位置的确定。由于每一行确定皇后位置的方式相似，所以可以使用递归法。一旦最后 一行的皇后位置确定，则可以得到一组解。找到一组解之后， 之前确定皇后应该放置在哪一列的循环其实才进行了一轮循环的， 算法通过该循环遍历所有的列，以此确定每一行所有可能的列的位置。在从一轮循环进入下一轮循环之前，算法需要清除在上一轮被标记为不可放置皇后的标记，也就是回溯。因为进入下一轮循环之后，同一行的皇后的列的位置会发生了变化，之前被标记为不可放置皇后的列和正反对角线位置都已经失效<br>下面给出N皇后问题代码实现: </p>
+<h4 id="C-版本："><a href="#C-版本：" class="headerlink" title="C++版本："></a>C++版本：</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">int</span> tot;</span><br><span class="line"><span class="keyword">int</span> vis[<span class="number">3</span>][<span class="number">100</span>];<span class="comment">//使用二维数组，分别枚举列和两个对角线</span></span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">queen</span><span class="params">(<span class="keyword">int</span> n,<span class="keyword">int</span> *A,<span class="keyword">int</span> cur)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(cur==n)</span><br><span class="line">        tot++;</span><br><span class="line">    <span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(!vis[<span class="number">0</span>][i]&amp;&amp;!vis[<span class="number">1</span>][i+cur]&amp;&amp;!vis[<span class="number">2</span>][cur-i+n])&#123;</span><br><span class="line">                A[cur]=i;</span><br><span class="line">                vis[<span class="number">0</span>][i]=vis[<span class="number">1</span>][i+cur]=vis[<span class="number">2</span>][cur-i+n]=<span class="number">1</span>;</span><br><span class="line">                queen(n,A,cur+<span class="number">1</span>);</span><br><span class="line">                vis[<span class="number">0</span>][i]=vis[<span class="number">1</span>][i+cur]=vis[<span class="number">2</span>][cur-i+n]=<span class="number">0</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> n;</span><br><span class="line">    <span class="keyword">while</span>(<span class="built_in">cin</span>&gt;&gt;n) &#123;</span><br><span class="line">        <span class="keyword">int</span> *a = <span class="keyword">new</span> <span class="keyword">int</span>[n+<span class="number">10</span>];</span><br><span class="line">        <span class="built_in">memset</span>(vis,<span class="number">0</span>, <span class="keyword">sizeof</span>(vis));</span><br><span class="line">        tot=<span class="number">0</span>;</span><br><span class="line">        queen(n,a,<span class="number">0</span>);</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; tot &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="python3版本："><a href="#python3版本：" class="headerlink" title="python3版本："></a>python3版本：</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#这种是常规版的，使用一位数组回溯</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">queen</span><span class="params">(c,cur)</span>:</span></span><br><span class="line">    <span class="keyword">if</span>(cur==n):</span><br><span class="line">        <span class="keyword">global</span> tot</span><br><span class="line">        tot+=<span class="number">1</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>,n):</span><br><span class="line">            ok=<span class="number">1</span></span><br><span class="line">            c[cur]=i;</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">0</span>,cur):</span><br><span class="line">                <span class="keyword">if</span>(c[cur]==c[j] <span class="keyword">or</span> cur-c[cur]==j-c[j] <span class="keyword">or</span> cur+c[cur]==j+c[j]):</span><br><span class="line">                    ok=<span class="number">0</span></span><br><span class="line">                    <span class="keyword">break</span></span><br><span class="line">            <span class="keyword">if</span>(ok):</span><br><span class="line">                queen(c,cur+<span class="number">1</span>)</span><br><span class="line"><span class="comment">#这个跟上面的C++版本相同，使用了二维数组存储</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">queen2</span><span class="params">(c,cur)</span>:</span></span><br><span class="line">    <span class="keyword">global</span> tot</span><br><span class="line">    <span class="keyword">global</span> vis</span><br><span class="line">    <span class="keyword">if</span>(cur==n):</span><br><span class="line">        tot+=<span class="number">1</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(n):</span><br><span class="line">            <span class="keyword">if</span>(vis[<span class="number">0</span>][i] == <span class="number">0</span> <span class="keyword">and</span> vis[<span class="number">1</span>][cur+i] == <span class="number">0</span> <span class="keyword">and</span> vis[<span class="number">2</span>][cur+n-i] == <span class="number">0</span>):</span><br><span class="line">                c[cur]=i</span><br><span class="line">                vis[<span class="number">0</span>][i]=vis[<span class="number">1</span>][cur+i]=vis[<span class="number">2</span>][cur+n-i]=<span class="number">1</span></span><br><span class="line">                queen2(c,cur+<span class="number">1</span>)</span><br><span class="line">                vis[<span class="number">0</span>][i]=vis[<span class="number">1</span>][cur+i]=vis[<span class="number">2</span>][cur+n-i]=<span class="number">0</span></span><br><span class="line"><span class="comment">#主函数</span></span><br><span class="line"><span class="keyword">if</span> __name__==<span class="string">'__main__'</span>:</span><br><span class="line">    <span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            n=int(input());</span><br><span class="line">            tot=<span class="number">0</span></span><br><span class="line">            vis=[[<span class="number">0</span> <span class="keyword">for</span> col <span class="keyword">in</span> range(n+<span class="number">10</span>)] <span class="keyword">for</span> row <span class="keyword">in</span> range(<span class="number">3</span>)]</span><br><span class="line">            print(vis)</span><br><span class="line">            c=[<span class="number">0</span>]*n</span><br><span class="line">            queen2(c,<span class="number">0</span>)</span><br><span class="line">            print(tot)</span><br><span class="line">        <span class="keyword">except</span> EOFError:</span><br><span class="line">            <span class="keyword">break</span></span><br></pre></td></tr></table></figure>
+<p>OK，今天的回溯法讲完了，当然这只是回溯法的九牛一毛而已，接下来会给大家带来更多回溯法的应用问题</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/07/01/uva10410：树重建/" rel="next" title="UVA10410题：树重建">
+                <i class="fa fa-chevron-left"></i> UVA10410题：树重建
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/07/15/Leetcode周赛第93场题解/" rel="prev" title="Leetcode周赛第93场题解">
+                Leetcode周赛第93场题解 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Eric</p>
+              <p class="site-description motion-element" itemprop="description">如果奇迹有颜色</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">6</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">6</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/CrazyEric00" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="1254297317@qq.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://twitter.com/CrazyEric00?s=09" target="_blank" title="Twitter"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://www.facebook.com/profile.php?id=100024861292913" target="_blank" title="FaceBook"><i class="fa fa-fw fa-facebook"></i>FaceBook</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://ltitan.github.io/" title="飞哥的博客" target="_blank">飞哥的博客</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://jangit.cn/" title="Jangit学长的博客" target="_blank">Jangit学长的博客</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#C-版本："><span class="nav-number">1.</span> <span class="nav-text">C++版本：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#python3版本："><span class="nav-number">2.</span> <span class="nav-text">python3版本：</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Eric</span>
+
+  
+
+  
+</div>
+
+
+
+
+     <div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+<!-- <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Muse</a> v6.3.0</div>
+-->
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("GWJLhntwmWMtUlwUlvgHDpCS-gzGzoHsz", "0Kz2bX5DOPhw97ATv0A4TmKs");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            
+            counter.save(null, {
+              success: function(counter) {
+                
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(counter.get('time'));
+                
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            
+              var $element = $(document.getElementById(url));
+              $element.find('.leancloud-visitors-count').text('Counter not initialized! See more at console err msg.');
+              console.error('ATTENTION! LeanCloud counter has security bug, see here how to solve it: https://github.com/theme-next/hexo-leancloud-counter-security. \n But you also can use LeanCloud without security, by set \'security\' option to \'false\'.');
+            
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+  
+   <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas> 
+   <script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
+   <script type="text/javascript" src="/js/src/fireworks.js"></script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"right","width":150,"height":300,"vOffset":-40},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

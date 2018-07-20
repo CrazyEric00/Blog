@@ -80,8 +80,6 @@ void decode(int k,Node& node) {
         }
     }
 }
- 
- 
 //搜索
 void bfs(const Node& begin)
 {
@@ -128,7 +126,7 @@ void bfs(const Node& begin)
         }
     }
 }
- 
+
 void output()
 {
     int n, u;

@@ -5,7 +5,7 @@
 # Site
 title: In The End
 subtitle: Eric的个人博客
-description: 爱好ACM与算法
+description: 如果奇迹有颜色
 keywords: 算法
 author: Eric
 language: zh-CN
@@ -73,7 +73,7 @@ pagination_dir: page
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: hexo-theme-shana-master
+theme: hexo-theme-next
 
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
