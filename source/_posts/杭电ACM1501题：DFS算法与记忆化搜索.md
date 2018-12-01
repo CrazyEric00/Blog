@@ -2,9 +2,12 @@
 title: 杭电ACM1501题 ：DFS算法与记忆化搜索
 categories:
   - ACM
-  - 杭电oj
+  - HDU
 date: 2018-04-26 11:18:09
 tags:
+  - DFS
+  - 搜索
+  - 记忆化搜索
 ---
 
 今天准备写一篇关于深搜的题，这是一道经典的深搜题http://acm.hdu.edu.cn/showproblem.php?pid=1501   

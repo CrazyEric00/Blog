@@ -111,26 +111,26 @@
 
 
   <meta name="description" content="哈哈，疯狂更新！又是八数码问题，这次是写另一种判重方法，也是一种比较常用的方法/数据结构上一篇文章中的八数码问题中可以不使用康托展开，虽然康托展开是完美哈希（一一对应）的，但是就是因为其完美哈希（一一对应）的这个特质，所以在节点多入牛毛时，你的内存空间还是会爆炸，因为就算康托展开地再完美，也还是无法减少情况，毕竟是一一对应，根本减少不了好吧。所以，在康托都救不了你了，Hash还是可以拯救你一下子的">
-<meta name="keywords" content="算法">
+<meta name="keywords" content="数据结构,哈希表">
 <meta property="og:type" content="article">
 <meta property="og:title" content="链式哈希表（八数码问题扩展）">
-<meta property="og:url" content="https://crazyeric00.github.io/2018/07/18/链式哈希表（八数码问题扩展）/index.html">
+<meta property="og:url" content="crazyeric00.github.io/2018/07/18/链式哈希表（八数码问题扩展）/index.html">
 <meta property="og:site_name" content="In The End">
 <meta property="og:description" content="哈哈，疯狂更新！又是八数码问题，这次是写另一种判重方法，也是一种比较常用的方法/数据结构上一篇文章中的八数码问题中可以不使用康托展开，虽然康托展开是完美哈希（一一对应）的，但是就是因为其完美哈希（一一对应）的这个特质，所以在节点多入牛毛时，你的内存空间还是会爆炸，因为就算康托展开地再完美，也还是无法减少情况，毕竟是一一对应，根本减少不了好吧。所以，在康托都救不了你了，Hash还是可以拯救你一下子的">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://crazyeric00.github.io/img/链式哈希表.jpeg">
-<meta property="og:updated_time" content="2018-07-18T10:55:28.334Z">
+<meta property="og:image" content="/img/链式哈希表.jpeg">
+<meta property="og:updated_time" content="2018-07-21T09:47:39.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="链式哈希表（八数码问题扩展）">
 <meta name="twitter:description" content="哈哈，疯狂更新！又是八数码问题，这次是写另一种判重方法，也是一种比较常用的方法/数据结构上一篇文章中的八数码问题中可以不使用康托展开，虽然康托展开是完美哈希（一一对应）的，但是就是因为其完美哈希（一一对应）的这个特质，所以在节点多入牛毛时，你的内存空间还是会爆炸，因为就算康托展开地再完美，也还是无法减少情况，毕竟是一一对应，根本减少不了好吧。所以，在康托都救不了你了，Hash还是可以拯救你一下子的">
-<meta name="twitter:image" content="https://crazyeric00.github.io/img/链式哈希表.jpeg">
+<meta name="twitter:image" content="/img/链式哈希表.jpeg">
 
 
 
 
 
 
-  <link rel="canonical" href="https://crazyeric00.github.io/2018/07/18/链式哈希表（八数码问题扩展）/"/>
+  <link rel="canonical" href="crazyeric00.github.io/2018/07/18/链式哈希表（八数码问题扩展）/"/>
 
 
 
@@ -289,7 +289,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://crazyeric00.github.io/2018/07/18/链式哈希表（八数码问题扩展）/">
+    <link itemprop="mainEntityOfPage" href="crazyeric00.github.io/2018/07/18/链式哈希表（八数码问题扩展）/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Eric">
@@ -348,7 +348,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2018-07-18 10:55:28" itemprop="dateModified" datetime="2018-07-18T10:55:28Z">2018-07-18</time>
+                <time title="修改时间：2018-07-21 09:47:39" itemprop="dateModified" datetime="2018-07-21T09:47:39Z">2018-07-21</time>
               
             
           </span>
@@ -379,19 +379,15 @@
 
           
           
-             <span id="/2018/07/18/链式哈希表（八数码问题扩展）/" class="leancloud_visitors" data-flag-title="链式哈希表（八数码问题扩展）">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">热度：</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-                 <span>℃</span>
-             </span>
-          
 
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon"
+            >
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
           
 
           
@@ -436,6 +432,14 @@
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/数据结构/" rel="tag"><i class="fa fa-tag"></i> 数据结构</a>
+          
+            <a href="/tags/哈希表/" rel="tag"><i class="fa fa-tag"></i> 哈希表</a>
+          
+        </div>
+      
 
       
       
@@ -478,6 +482,11 @@
 
           </div>
           
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zODIzNi8xNDc2NA=="></div>
+    </div>
 
   
 
@@ -527,7 +536,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-count">62</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -554,7 +563,13 @@
                     
                       
                     
-                    <span class="site-state-item-count">6</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">9</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -579,7 +594,61 @@
                     
                       
                     
-                    <span class="site-state-item-count">6</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">33</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -598,17 +667,22 @@
                 </span>
               
                 <span class="links-of-author-item">
-                  <a href="1254297317@qq.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
-                  
-                </span>
-              
-                <span class="links-of-author-item">
                   <a href="https://twitter.com/CrazyEric00?s=09" target="_blank" title="Twitter"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
                   
                 </span>
               
                 <span class="links-of-author-item">
                   <a href="https://www.facebook.com/profile.php?id=100024861292913" target="_blank" title="FaceBook"><i class="fa fa-fw fa-facebook"></i>FaceBook</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://leetcode-cn.com/crazyeric00/" target="_blank" title="Leetcode(China)"><i class="fa fa-fw fa-code"></i>Leetcode(China)</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://codeforces.com/profile/CrazyEric" target="_blank" title="Codeforces"><i class="fa fa-fw fa-code"></i>Codeforces</a>
                   
                 </span>
               
@@ -677,8 +751,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
   <span class="with-love" id="animate">
     <i class="fa fa-user"></i>
   </span>
@@ -692,11 +765,7 @@
 
 
 
-     <div class="powered-by">
-<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
-  本站访客数:<span id="busuanzi_value_site_uv"></span>
-</span>
-</div>
+<p>Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a></p>
 <!-- <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.7.1</div>
 
 
@@ -712,6 +781,24 @@
 
 
         
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv" title="总访客量">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="site-pv" title="总访问量">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
 
 
 
@@ -823,6 +910,17 @@
 
 
   
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
 
 
 
@@ -840,102 +938,6 @@
 
 
   
-
-  
-  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
-  <script>AV.initialize("GWJLhntwmWMtUlwUlvgHDpCS-gzGzoHsz", "0Kz2bX5DOPhw97ATv0A4TmKs");</script>
-  <script>
-    function showTime(Counter) {
-      var query = new AV.Query(Counter);
-      var entries = [];
-      var $visitors = $(".leancloud_visitors");
-
-      $visitors.each(function () {
-        entries.push( $(this).attr("id").trim() );
-      });
-
-      query.containedIn('url', entries);
-      query.find()
-        .done(function (results) {
-          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
-
-          if (results.length === 0) {
-            $visitors.find(COUNT_CONTAINER_REF).text(0);
-            return;
-          }
-
-          for (var i = 0; i < results.length; i++) {
-            var item = results[i];
-            var url = item.get('url');
-            var time = item.get('time');
-            var element = document.getElementById(url);
-
-            $(element).find(COUNT_CONTAINER_REF).text(time);
-          }
-          for(var i = 0; i < entries.length; i++) {
-            var url = entries[i];
-            var element = document.getElementById(url);
-            var countSpan = $(element).find(COUNT_CONTAINER_REF);
-            if( countSpan.text() == '') {
-              countSpan.text(0);
-            }
-          }
-        })
-        .fail(function (object, error) {
-          console.log("Error: " + error.code + " " + error.message);
-        });
-    }
-
-    function addCount(Counter) {
-      var $visitors = $(".leancloud_visitors");
-      var url = $visitors.attr('id').trim();
-      var title = $visitors.attr('data-flag-title').trim();
-      var query = new AV.Query(Counter);
-
-      query.equalTo("url", url);
-      query.find({
-        success: function(results) {
-          if (results.length > 0) {
-            var counter = results[0];
-            counter.fetchWhenSave(true);
-            counter.increment("time");
-            
-            counter.save(null, {
-              success: function(counter) {
-                
-                  var $element = $(document.getElementById(url));
-                  $element.find('.leancloud-visitors-count').text(counter.get('time'));
-                
-              },
-              error: function(counter, error) {
-                console.log('Failed to save Visitor num, with error message: ' + error.message);
-              }
-            });
-          } else {
-            
-              var $element = $(document.getElementById(url));
-              $element.find('.leancloud-visitors-count').text('Counter not initialized! See more at console err msg.');
-              console.error('ATTENTION! LeanCloud counter has security bug, see here how to solve it: https://github.com/theme-next/hexo-leancloud-counter-security. \n But you also can use LeanCloud without security, by set \'security\' option to \'false\'.');
-            
-          }
-        },
-        error: function(error) {
-          console.log('Error:' + error.code + " " + error.message);
-        }
-      });
-    }
-
-    $(function() {
-      var Counter = AV.Object.extend("Counter");
-      if ($('.leancloud_visitors').length == 1) {
-        addCount(Counter);
-      } else if ($('.post-title-link').length > 1) {
-        showTime(Counter);
-      }
-    });
-  </script>
-
-
 
   
 

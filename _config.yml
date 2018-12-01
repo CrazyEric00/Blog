@@ -13,7 +13,7 @@ timezone: UTC
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: https://crazyeric00.github.io/
+url: crazyeric00.github.io
 root: /
 permalink: :year/:month/:day/:title/
 permalink_defaults:
@@ -79,7 +79,9 @@ theme: hexo-theme-next
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repo: https://github.com/CrazyEric00/CrazyEric00.github.io.git
+  repo: 
+    github: https://github.com/CrazyEric00/CrazyEric00.github.io.git
+    coding: git@git.coding.net:CrazyEric/CrazyEric.coding.me.git
   branch: master
 
 live2d:
